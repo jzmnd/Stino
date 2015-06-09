@@ -501,8 +501,11 @@ def exec_cmds(working_dir, cmds, message_queue, is_verbose=False):
 def exec_cmd(working_dir, cmd):
     os.environ['CYGWIN'] = 'nodosfilewarning'
     if cmd:
-        os.chdir(working_dir)
+        os.chdir("/")
         cmd = formatCommand(cmd)
+        if "avr-" in cmd:
+            cmd = "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/" + cmd;
+        cmd = cmd.replace("{runtime.tools.avrdude.path}", "/Applications/Arduino.app/Contents/Java/hardware/tools/avr")
         compile_proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE, shell=True)
         result = compile_proc.communicate()
