@@ -1,4 +1,7 @@
 [
-    {"keys": ["super+alt+u"], "command": "update_menu"},
-    {"keys": ["super+alt+n"], "command": "new_sketch"}
+    {"keys": ["super+alt+n"], "command": "new_sketch"},
+    
+    {"keys": ["super+alt+v"], "command": "compile_sketch"},
+    {"keys": ["super+alt+u"], "command": "upload_sketch"},
+    {"keys": ["super+alt+shift+u"], "command": "upload_using_programmer"}
 ]
