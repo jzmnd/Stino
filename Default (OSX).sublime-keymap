@@ -1,6 +1,6 @@
 [
     {"keys": ["alt+a", "alt+s"], "command": "show_arduino_menu"},
-    {"keys": ["alt+cmd+n"], "command": "update_menu"},
+    {"keys": ["alt+ctrl+n"], "command": "update_menu"},
     {"keys": ["alt+a", "alt+n"], "command": "new_sketch"},
     {"keys": ["alt+a", "alt+d"], "command": "show_sketch_folder"},
     {"keys": ["alt+a", "alt+b"], "command": "compile_sketch"},
