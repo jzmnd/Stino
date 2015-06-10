@@ -1,4 +1,4 @@
 [
     {"keys": ["super+alt+u"], "command": "update_menu"},
-    {"keys": ["super+alt+n"], "command": "new_sketch"},
+    {"keys": ["super+alt+n"], "command": "new_sketch"}
 ]
