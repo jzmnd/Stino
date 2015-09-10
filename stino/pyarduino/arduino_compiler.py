@@ -217,7 +217,7 @@ class Compiler(object):
             common_core_path = os.path.join(cores_path, 'Common')
             varient_path = self.params.get('build.variant.path')
             build_hardware = self.params.get('build.hardware', '')
-            core_paths = [core_path, common_core_path, varient_path]
+            core_paths = [core_path, common_core_path, varient_path]    
             if build_hardware:
                 platform_path = self.params.get('runtime.platform.path', '')
                 hardware_path = os.path.join(platform_path, build_hardware)
@@ -263,15 +263,19 @@ class Compiler(object):
         self.params['includes'] = ' '.join(includes)
 
         ide_path = self.arduino_info.get_ide_dir().get_path()
+
         if not 'compiler.path' in self.params:
-            compiler_path = '{runtime.ide.path}/hardware/tools/avr/bin/'
+            compiler_path = '{runtime.ide.path}/hardware/tools/avr/bin/'           
             self.params['compiler.path'] = compiler_path
-        compiler_path = self.params.get('compiler.path')
+        compiler_path = self.params.get('compiler.path')        
         compiler_path = compiler_path.replace('{runtime.ide.path}', ide_path)
+        
         if not os.path.isdir(compiler_path):
             self.params['compiler.path'] = ''
 
         self.params = arduino_target_params.replace_param_values(self.params)
+        
+        
 
     def prepare_cmds(self):
         compile_c_cmd = self.params.get('recipe.c.o.pattern', '')
@@ -497,11 +501,20 @@ def exec_cmds(working_dir, cmds, message_queue, is_verbose=False):
             break
     return error_occured
 
-
 def exec_cmd(working_dir, cmd):
     os.environ['CYGWIN'] = 'nodosfilewarning'
     if cmd:
+<<<<<<< HEAD
         os.chdir("/")
+=======
+        os.chdir("/")        
+        if "avr-" in cmd:
+            cmd = cmd.replace('"','',1)
+            avr = '"%s\\hardware\\tools\\avr' % working_dir
+            cmd = avr + '\\bin\\' + cmd           
+            cmd = cmd.replace("{runtime.tools.avrdude.path}", avr)
+
+>>>>>>> upstream/new-stino
         cmd = formatCommand(cmd)
         if "avr-" in cmd:
             cmd = "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/" + cmd;
@@ -512,19 +525,19 @@ def exec_cmd(working_dir, cmd):
         return_code = compile_proc.returncode
         stdout = result[0].decode(base.sys_info.get_sys_encoding())
         stderr = result[1].decode(base.sys_info.get_sys_encoding())
-    else:
+    else:    
         return_code = 0
         stdout = ''
         stderr = ''
     return (return_code, stdout, stderr)
 
-
 def formatCommand(cmd):
     if '::' in cmd:
         cmd = cmd.replace('::', ' ')
-    cmd = cmd.replace('\\', '/')
+    cmd = cmd.replace('\\', '/') 
     os_name = base.sys_info.get_os_name()
     python_version = base.sys_info.get_python_version()
+
     if python_version < 3 and os_name == 'windows':
         cmd = '"%s"' % cmd
     return cmd
@@ -545,7 +558,6 @@ def gen_core_objs(core_path, folder_prefix, build_path, is_new_build):
     core_dir = base.abs_file.Dir(core_path)
     core_cpp_files = core_dir.recursive_list_files(
         arduino_src.CPP_EXTS, ['libraries'])
-    # core_cpp_files = core_dir.list_files_of_extensions(arduino_src.CPP_EXTS)
     sub_dir_name = folder_prefix + core_dir.get_name()
     core_obj_paths = gen_obj_paths(core_path, build_path,
                                    sub_dir_name, core_cpp_files)
